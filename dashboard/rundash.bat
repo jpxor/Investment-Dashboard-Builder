@@ -1,0 +1,1 @@
+..\build-dashboard.py ..\investments-data-example.xlsx dark
