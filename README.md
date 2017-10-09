@@ -2,6 +2,7 @@
 Read account data, and produce a nice dashboard
 
 Requires: 
-- Python with Plotly package installed
+- Plotly python package for the graphs
+- openpyxl python package for reading data from excel files
 
 ![screenshot](dashboard/screenshot.png)
