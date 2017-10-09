@@ -1,1 +1,1 @@
-..\build-dashboard.py ..\investments-data-example.xlsx dark
+..\src\build-dashboard.py ..\data\investments-data-example.xlsx dark
