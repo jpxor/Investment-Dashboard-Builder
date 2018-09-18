@@ -198,12 +198,12 @@ layout = Layout(
 )
 
 cw_text = [ locale.currency( y, grouping=True ) for y in cumcw]
-gains_text = [ locale.currency( y, grouping=True ) for y in cumgains]
+cumgains_text = [ locale.currency( y, grouping=True ) for y in cumgains]
 val_text = [ locale.currency( y, grouping=True ) for y in totvalue]
 
 plotdata = []
 plotdata.append( go.Scatter(x=data["dateRange"], y=cumcw ,name="Contributions (since {})".format( data["dateRange"][0].strftime("%b %Y") ),fill='tonexty',text=cw_text, hoverinfo='text+name') ) 
-plotdata.append( go.Scatter(x=data["dateRange"], y=cumcwgains ,name="Gains (since {})".format( data["dateRange"][0].strftime("%b %Y")),fill='tonexty',text=gains_text, hoverinfo='text+name') ) 
+plotdata.append( go.Scatter(x=data["dateRange"], y=cumcwgains ,name="Gains (since {})".format( data["dateRange"][0].strftime("%b %Y")),fill='tonexty',text=cumgains_text, hoverinfo='text+name') ) 
 plotdata.append( go.Scatter(x=data["dateRange"], y=totvalue ,name="Total Value",fill='tonexty',text=val_text, hoverinfo='text+name') ) 
 
 fig = Figure(data=plotdata, layout=layout)	
@@ -264,9 +264,54 @@ rates_graph = "account-growth.html"
 plotly.offline.plot(fig, filename=rates_graph, auto_open=False, show_link=False)
 
 
+#==================================
+graph_title = "Cumulative Returns"
+layout = Layout(
+	title = graph_title,
+    paper_bgcolor=pageColour,
+    plot_bgcolor='rgba(0,0,0,0)',
+	font=dict(color=labelColour),
+	xaxis=dict( showgrid=True, gridcolor='#111111' ),
+	yaxis=dict( showgrid=True ),
+)
+
+cumgains_text = [ locale.currency( y, grouping=True ) for y in cumgains]
+
+plotdata = []
+plotdata.append( go.Scatter(x=data["dateRange"], y=cumgains, name="Gains (since {})".format( data["dateRange"][0].strftime("%b %Y")),fill='tonexty',text=cumgains_text, hoverinfo='text+name') ) 
+
+fig = Figure(data=plotdata, layout=layout)	
+
+gains_graph = "cumulative-returns.html"
+plotly.offline.plot(fig, filename=gains_graph, auto_open=False, show_link=False)
+
+
+#==================================
+graph_title = "Monthly Return"
+layout = Layout(
+	title = graph_title,
+    paper_bgcolor=pageColour,
+    plot_bgcolor='rgba(0,0,0,0)',
+	font=dict(color=labelColour),
+	xaxis=dict( showgrid=False ),
+	yaxis=dict( showgrid=False ),
+)
+
+colors = [ 'rgb(100,0,0)' if y < 0 else 'rgb(0,100,0)' for y in totgains ]
+totgains_text = [ locale.currency( y, grouping=True ) for y in totgains]
+
+plotdata = [go.Bar(x=data["dateRange"], y=totgains, marker=dict(color=colors), text=totgains_text, hoverinfo='text')]
+
+fig = Figure(data=plotdata, layout=layout)	
+
+change_graph = "monthly-return.html"
+plotly.offline.plot(fig, filename=change_graph, auto_open=False, show_link=False)
+
+
+#=====================================
 #see script: utils.py
 from utils import builddashboard
-dashboard_filepath = builddashboard("dashboard.html", overview_graph, dist_graph, rates_graph, borderColour)
+dashboard_filepath = builddashboard("dashboard.html", overview_graph, dist_graph, rates_graph, change_graph, gains_graph, borderColour)
 
 import webbrowser
 webbrowser.open(dashboard_filepath, new=1)

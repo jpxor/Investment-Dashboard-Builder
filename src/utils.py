@@ -101,7 +101,7 @@ def loadDataFromExcel(filepath):
 			date = ws_year.cell(row=2, column=column).value
 			if dateNotInRange( startDate, date, endDate ):
 				continue #next loop iteration (ie: skip this date)
-			
+
 			#collect data (account value and contributions/withdrawals) for each account
 			for accountName,accountData in accounts.items():					
 				row = accountData["row"]
@@ -115,7 +115,7 @@ def loadDataFromExcel(filepath):
 	return data
 	
 #==========================
-def builddashboard(filename, plot1, plot2, plot3, bgcolor_hex):
+def builddashboard(filename, plot1, plot2, plot3, plot4, plot5, bgcolor_hex):
 	htmltext = """
 <!DOCTYPE html>
 <html>
@@ -130,21 +130,27 @@ def builddashboard(filename, plot1, plot2, plot3, bgcolor_hex):
 	</head>
 		
 	<body style="background-color:{};">
-		<div class="chart-stage" style="width:60%;">
+		<div class="chart-stage" style="width:49%;">
 		<iframe width="100%" height="525px" frameborder="0" scrolling="no" src="{}"></iframe>
 		</div>
 		
-		<div class="chart-stage" style="width:38%;">
+		<div class="chart-stage" style="width:49%;">
 		<iframe width="100%" height="525px" frameborder="0" scrolling="no" src="{}"></iframe>
 		</div>
 				
 		<div class="chart-stage" style="width:99%;">
 		<iframe width="100%" height="525" frameborder="0" scrolling="no" src="{}"></iframe>
 		</div>
+		<div class="chart-stage" style="width:99%;">
+		<iframe width="100%" height="525" frameborder="0" scrolling="no" src="{}"></iframe>
+		</div>
+		<div class="chart-stage" style="width:99%;">
+		<iframe width="100%" height="525" frameborder="0" scrolling="no" src="{}"></iframe>
+		</div>
 	</body>
 </html>
 """
-	htmltext = htmltext.format( bgcolor_hex, plot1, plot2, plot3 )
+	htmltext = htmltext.format( bgcolor_hex, plot1, plot2, plot3, plot4, plot5 )
 	with open(filename, 'w') as file:
 		file.write(htmltext)
 		file.close()
